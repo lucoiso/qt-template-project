@@ -7,7 +7,7 @@ Window {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Data Manager")
+    title: qsTr("Window Title")
 
     Rectangle {
         id: rect
