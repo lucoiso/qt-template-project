@@ -2,6 +2,7 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQuickStyle>
 
 #include <QtQml/QQmlExtensionPlugin>
 Q_IMPORT_QML_PLUGIN(UserInterfacePlugin)
@@ -11,13 +12,15 @@ int main(int Argc, char *Argv[])
     QGuiApplication const Application(Argc, Argv);
     QQmlApplicationEngine AppEngine;
 
+    QQuickStyle::setStyle("Material");
+
     QObject::connect(
             &AppEngine,
             &QQmlApplicationEngine::objectCreationFailed,
             &Application,
             []
             {
-                QCoreApplication::exit(-1);
+                QCoreApplication::exit(EXIT_FAILURE);
             },
             Qt::QueuedConnection);
 

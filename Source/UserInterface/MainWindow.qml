@@ -1,26 +1,32 @@
 // Copyright Notices: [...]
 
 import QtQuick
+import QtQuick.Controls
+
+import "Components" as Components
+import "Pages" as Pages
 
 Window {
-    id: main_window
+    id: mainWindow
     width: 640
     height: 480
     visible: true
-    title: qsTr("Window Title")
+    title: qsTr("Main Window")
 
-    Rectangle {
-        id: rect
-        width: main_window.width
-        height: main_window.height
-        color: "black"
+    StackView {
+        id: mainStack
+        anchors.fill: parent
 
-        Text {
-            id: text
-            text: qsTr("Hello World")
-            anchors.centerIn: parent
-            font.pixelSize: 24
-            color: "white"
+        initialItem: Pages.LoginPage
+        {
+            onLoginSuccessful: mainStack.push(compShell)
+        }
+
+        Component {
+            id: compShell
+            Components.ApplicationShell {
+                id: appShell
+            }
         }
     }
 }

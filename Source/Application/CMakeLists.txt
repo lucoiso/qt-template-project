@@ -4,7 +4,7 @@
 SET(LIBRARY_NAME Application)
 
 # ------------- Library Setup --------------
-FIND_PACKAGE(Qt6 6.6 REQUIRED COMPONENTS Gui Quick)
+FIND_PACKAGE(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui Quick QuickControls2)
 
 SET(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Source/Main.cpp
@@ -16,6 +16,7 @@ TARGET_LINK_LIBRARIES(${LIBRARY_NAME} PRIVATE
         Qt6::Core
         Qt6::Gui
         Qt6::Quick
+        Qt6::QuickControls2
         UserInterfaceplugin
 )
 

@@ -8,10 +8,14 @@ SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_AUTORCC ON)
 
 # ---------------- Qt Setup ----------------
-FIND_PACKAGE(Qt6 REQUIRED COMPONENTS Qml)
+FIND_PACKAGE(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Qml Quick)
 
 SET(QML_FILES
         MainWindow.qml
+        Components/ApplicationShell.qml
+        Pages/HomePage.qml
+        Pages/LoginPage.qml
+        Pages/PlaceholderPage.qml
 )
 
 QT_ADD_LIBRARY(${LIBRARY_NAME} STATIC)
