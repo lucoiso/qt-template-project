@@ -14,17 +14,15 @@ int main(int Argc, char *Argv[])
 
     QQuickStyle::setStyle("Material");
 
-    QObject::connect(
-            &AppEngine,
-            &QQmlApplicationEngine::objectCreationFailed,
-            &Application,
-            []
-            {
-                QCoreApplication::exit(EXIT_FAILURE);
-            },
-            Qt::QueuedConnection);
+    QObject::connect(&AppEngine,
+                     &QQmlApplicationEngine::objectCreationFailed,
+                     &Application,
+                     []
+                     {
+                         QCoreApplication::exit(EXIT_FAILURE);
+                     },
+                     Qt::QueuedConnection);
 
     AppEngine.load(QUrl(u"qrc:/UserInterface/MainWindow.qml"_qs));
-
     return QGuiApplication::exec();
 }
