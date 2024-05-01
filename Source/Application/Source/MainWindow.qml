@@ -3,8 +3,8 @@
 import QtQuick
 import QtQuick.Controls
 
-import "Components" as Components
-import "Pages" as Pages
+import "../../UserInterface/Components" as Components
+import "../../UserInterface/Pages" as Pages
 
 Window {
     id: mainWindow

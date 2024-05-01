@@ -1,10 +1,11 @@
 // Copyright Notices: [...]
 
 import QtQuick
+import QtQuick.Controls
+
+import UserInterface
 
 Item {
-    anchors.fill: parent
-
     Rectangle {
         anchors.centerIn: parent
         width: 200

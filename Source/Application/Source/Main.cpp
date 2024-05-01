@@ -23,6 +23,6 @@ int main(int Argc, char *Argv[])
                      },
                      Qt::QueuedConnection);
 
-    AppEngine.load(QUrl(u"qrc:/UserInterface/MainWindow.qml"_qs));
+    AppEngine.load(QUrl(u"qrc:/Application/Source/MainWindow.qml"_qs));
     return QGuiApplication::exec();
 }

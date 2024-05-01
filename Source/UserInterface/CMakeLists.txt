@@ -14,16 +14,13 @@ FILE(GLOB_RECURSE PUBLIC_MODULES "${PUBLIC_MODULES_BASE_DIRECTORY}/*.hpp")
 FIND_PACKAGE(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Qml Quick QuickControls2)
 
 SET(QML_FILES
-        MainWindow.qml
         Components/ApplicationShell.qml
         Pages/HomePage.qml
         Pages/LoginPage.qml
         Pages/PlaceholderPage.qml
 )
 
-QT_ADD_LIBRARY(${LIBRARY_NAME} STATIC)
-
-QT_ADD_QML_MODULE(${LIBRARY_NAME}
+QT_ADD_QML_MODULE(${LIBRARY_NAME} STATIC
         URI ${LIBRARY_NAME}
         VERSION 1.0
         QML_FILES ${QML_FILES}
