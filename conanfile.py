@@ -45,4 +45,8 @@ class QtTemplateRecipe(ConanFile):
 
     def generate(self):
         tc = CMakeToolchain(self, generator="Ninja")
+        tc.variables["QT_LOGGING_TO_CONSOLE"] = "1"
+        tc.variables["QT_FORCE_STDERR_LOGGING"] = "1"
+        tc.variables["QT_ASSUME_STDERR_HAS_CONSOLE"] = "1"
+        tc.variables["QML_IMPORT_TRACE"] = "0"
         tc.generate()
