@@ -5,8 +5,10 @@ import QtQuick.Controls
 
 import UserInterface
 
-Item {
-    Rectangle {
+Item
+{
+    Rectangle
+    {
         anchors.centerIn: parent
         width: 200
         height: 200

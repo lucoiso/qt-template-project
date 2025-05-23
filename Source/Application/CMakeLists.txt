@@ -1,7 +1,7 @@
 # Copyright Notices: [...]
 
 # ----------- Global Definitions -----------
-SET(LIBRARY_NAME Application)
+SET(LIBRARY_NAME ${PROJECT_NAME})
 
 # ------------- Library Setup --------------
 FIND_PACKAGE(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui Quick QuickControls2)
@@ -12,7 +12,7 @@ QT_ADD_QML_MODULE(${LIBRARY_NAME}
         URI ${LIBRARY_NAME}
         VERSION 1.0
         QML_FILES Source/MainWindow.qml
-        IMPORTS UserInterface
+        NO_PLUGIN
         RESOURCE_PREFIX /
 )
 

@@ -6,23 +6,28 @@ import QtQuick.Layouts
 
 import "../Pages" as Pages
 
-Item {
-    TabBar {
+Item
+{
+    TabBar
+    {
         id: shellBar
 
         z: 999
         width: parent.width
 
-        TabButton {
-            text: qsTr("Home")
+        TabButton
+        {
+            text: "Home"
         }
 
-        TabButton {
-            text: qsTr("Placeholder")
+        TabButton
+        {
+            text: "Placeholder"
         }
     }
 
-    StackLayout {
+    StackLayout
+    {
         anchors.left: parent.left
         anchors.top: shellBar.bottom
         anchors.right: parent.right
@@ -30,11 +35,13 @@ Item {
 
         currentIndex: shellBar.currentIndex
 
-        Pages.HomePage {
+        Pages.HomePage
+        {
             id: homePage
         }
 
-        Pages.PlaceholderPage {
+        Pages.PlaceholderPage
+        {
             id: placeholderPage
         }
     }

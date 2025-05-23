@@ -1,14 +1,11 @@
 # Copyright Notices: [...]
 
-import os
-import shutil
 from conan import ConanFile
 from conan.tools.cmake import cmake_layout, CMakeToolchain
-from conan.tools.files import copy
 
 
-class QtTemplateRecipe(ConanFile):
-    name = "qt-template"
+class QtTemplateProjectRecipe(ConanFile):
+    name = "qt-template-project"
     version = "0.0.1"
 
     settings = "os", "compiler", "build_type", "arch"
@@ -16,16 +13,16 @@ class QtTemplateRecipe(ConanFile):
 
     def requirements(self):
         # https://conan.io/center/recipes/qt
-        self.requires("qt/6.7.0")
+        self.requires("qt/6.7.3")
 
         # https://conan.io/center/recipes/boost
-        self.requires("boost/1.84.0")
+        self.requires("boost/1.87.0")
 
         # https://conan.io/center/recipes/benchmark
-        self.requires("benchmark/1.8.3")
+        self.requires("benchmark/1.9.1")
 
         # https://conan.io/center/recipes/catch2
-        self.requires("catch2/3.5.4")
+        self.requires("catch2/3.8.0")
 
     def configure(self):
         self.options["qt/*"].shared = True

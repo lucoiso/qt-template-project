@@ -1,19 +1,22 @@
 // Copyright Notices: [...]
 
 import QtQuick
+import QtQuick.Layouts
 import QtQuick.Controls
 
-import "../../UserInterface/Components" as Components
-import "../../UserInterface/Pages" as Pages
+import "../../UserInterface/QML/Components" as Components
+import "../../UserInterface/QML/Pages" as Pages
 
-Window {
+ApplicationWindow
+{
     id: mainWindow
     width: 640
     height: 480
     visible: true
-    title: qsTr("Main Window")
+    title: "Main Window"
 
-    StackView {
+    StackView
+    {
         id: mainStack
         anchors.fill: parent
 
@@ -22,9 +25,12 @@ Window {
             onLoginSuccessful: mainStack.push(compShell)
         }
 
-        Component {
+        Component
+        {
             id: compShell
-            Components.ApplicationShell {
+
+            Components.ApplicationShell
+            {
                 id: appShell
             }
         }
