@@ -1,6 +1,6 @@
 // Copyright Notices: [...]
 
-#include <Application/Application.hpp>
+#include <Application/Main.hpp>
 
 std::int32_t main(std::int32_t InArgc, char* InArgv[])
 {

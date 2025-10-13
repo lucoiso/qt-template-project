@@ -5,11 +5,9 @@ INCLUDE(GNUInstallDirs)
 
 
 # -------------- Directories ---------------
-ADD_SUBDIRECTORY(Main)
-ADD_SUBDIRECTORY(Application)
-ADD_SUBDIRECTORY(UserInterface)
-ADD_SUBDIRECTORY(TemplateLibrary)
+ADD_SUBDIRECTORY(Core)
+ADD_SUBDIRECTORY(Modules)
 
 IF ($ENV{BUILD_TESTS})
-    # ADD_SUBDIRECTORY(Tests) TODO : Catch2 & Google Benchmark were removed. Re-Add using Qt.
+    ADD_SUBDIRECTORY(Tests)
 ENDIF ($ENV{BUILD_TESTS})

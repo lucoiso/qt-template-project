@@ -50,4 +50,5 @@ SET(CMAKE_INSTALL_BINDIR ${CMAKE_BINARY_DIR}/bin)
 
 
 # -------------- Directories ---------------
+ADD_SUBDIRECTORY(CMakeLibs)
 ADD_SUBDIRECTORY(Source)

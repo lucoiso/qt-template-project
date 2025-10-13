@@ -1,10 +1,10 @@
 // Copyright Notices: [...]
 
-#include "Application/Application.hpp"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
+#include "Application/Main.hpp"
 
 #include <QtPlugin>
 Q_IMPORT_PLUGIN(UserInterfacePlugin)
