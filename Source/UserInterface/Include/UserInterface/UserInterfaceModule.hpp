@@ -6,9 +6,9 @@
 #include <QtCore/QtGlobal>
 
 #ifdef BUILD_DLL
-#define USER_INTERFACE_API Q_DECL_EXPORT
+    #define USER_INTERFACE_API Q_DECL_EXPORT
 #else
-#define USER_INTERFACE_API Q_DECL_IMPORT
+    #define USER_INTERFACE_API Q_DECL_IMPORT
 #endif
 
 #endif // defined(USER_INTERFACE_MODULE_HPP)

@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "../Pages" as Pages
+import "qrc:/UserInterface/Resources/QML/Pages" as Pages
 
 Item
 {
@@ -38,11 +38,13 @@ Item
         Pages.HomePage
         {
             id: homePage
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         }
 
         Pages.PlaceholderPage
         {
             id: placeholderPage
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         }
     }
 }

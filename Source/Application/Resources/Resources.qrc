@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Components">
+        <file>QML/Components/MainWindow.qml</file>
+    </qresource>
+</RCC>

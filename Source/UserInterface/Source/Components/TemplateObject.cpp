@@ -16,7 +16,7 @@ void UserInterface::TemplateObject::SetName(const QString& InValue)
     if (InValue != m_Name)
     {
         m_Name = InValue;
-        signal_NameChanged();
+        emit signal_NameChanged();
     }
 }
 

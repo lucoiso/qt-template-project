@@ -4,8 +4,8 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-import "../../UserInterface/QML/Components" as Components
-import "../../UserInterface/QML/Pages" as Pages
+import "qrc:/UserInterface/Resources/QML/Components" as Components
+import "qrc:/UserInterface/Resources/QML/Pages" as Pages
 
 ApplicationWindow
 {
@@ -28,7 +28,6 @@ ApplicationWindow
         Component
         {
             id: compShell
-
             Components.ApplicationShell
             {
                 id: appShell

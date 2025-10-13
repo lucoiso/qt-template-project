@@ -13,26 +13,14 @@ class QtTemplateProjectRecipe(ConanFile):
 
     def requirements(self):
         # https://conan.io/center/recipes/qt
-        self.requires("qt/6.7.3")
-
-        # https://conan.io/center/recipes/boost
-        self.requires("boost/1.87.0")
-
-        # https://conan.io/center/recipes/benchmark
-        self.requires("benchmark/1.9.1")
-
-        # https://conan.io/center/recipes/catch2
-        self.requires("catch2/3.8.0")
+        self.requires("qt/6.8.3")
 
     def configure(self):
         self.options["qt/*"].shared = True
         self.options["qt/*"].qtdeclarative = True
         self.options["qt/*"].qtshadertools = True
-        self.options["boost/*"].shared = True
-        self.options["boost/*"].without_cobalt = True
-        self.options["benchmark/*"].shared = True
-        self.options["catch2/*"].shared = True
-        self.options["catch2/*"].enable_exceptions = True
+        self.options["qt/*"].with_vulkan = True
+        self.options["qt/*"].opengl = "no"
 
     def build_requirements(self):
         self.tool_requires("cmake/[>=3.29]")
@@ -42,8 +30,4 @@ class QtTemplateProjectRecipe(ConanFile):
 
     def generate(self):
         tc = CMakeToolchain(self, generator="Ninja")
-        tc.variables["QT_LOGGING_TO_CONSOLE"] = "1"
-        tc.variables["QT_FORCE_STDERR_LOGGING"] = "1"
-        tc.variables["QT_ASSUME_STDERR_HAS_CONSOLE"] = "1"
-        tc.variables["QML_IMPORT_TRACE"] = "0"
         tc.generate()

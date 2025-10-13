@@ -1,5 +1,15 @@
 <RCC>
-    <qresource prefix="/Resources">
+    <qresource prefix="/Images">
         <file>Images/Placeholder.png</file>
+    </qresource>
+
+    <qresource prefix="/Pages">
+        <file>QML/Pages/LoginPage.qml</file>
+        <file>QML/Pages/HomePage.qml</file>
+        <file>QML/Pages/PlaceholderPage.qml</file>
+    </qresource>
+    
+    <qresource prefix="/Components">
+        <file>QML/Components/ApplicationShell.qml</file>
     </qresource>
 </RCC>

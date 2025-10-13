@@ -22,16 +22,16 @@ namespace UserInterface
 
     public:
         /** Contructor */
-        explicit TemplateObject(QObject* InParent = nullptr);
+        explicit TemplateObject(QObject* const InParent = nullptr);
 
         /** Destructor */
-        ~TemplateObject() override = default;
+        ~TemplateObject() = default;
 
         /** Set the name of the object */
         void SetName(const QString& InValue);
 
         /** Get the name of the object */
-        [[nodiscard]] const QString& GetName() const;
+        const QString& GetName() const;
 
     signals:
         /** Signal to notify whenever the name changes */

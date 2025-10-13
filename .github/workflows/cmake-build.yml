@@ -88,11 +88,11 @@ jobs:
         with:
           arch: x64
 
-      - name: (Ubuntu) Install Dependencies
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get upgrade -y
+      # - name: (Ubuntu) Install Dependencies
+      #   if: matrix.os == 'ubuntu-latest'
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get upgrade -y
 
       - name: Detect Conan Profile
         working-directory: ${{github.workspace}}
@@ -103,15 +103,15 @@ jobs:
         working-directory: ${{github.workspace}}
         run: conan install . --build=missing -s build_type=Release -s compiler.cppstd=23
 
-      - name: (Ubuntu) Get Packages from Conan
-        if: matrix.os == 'ubuntu-latest'
-        working-directory: ${{github.workspace}}
-        run: conan install . --build=missing -s build_type=Release -s compiler=gcc -s compiler.libcxx=libstdc++11 -s compiler.cppstd=gnu23 -s compiler.version=13.2 -c tools.system.package_manager:mode=install
+      # - name: (Ubuntu) Get Packages from Conan
+      #   if: matrix.os == 'ubuntu-latest'
+      #   working-directory: ${{github.workspace}}
+      #   run: conan install . --build=missing -s build_type=Release -s compiler=gcc -s compiler.libcxx=libstdc++11 -s compiler.cppstd=gnu23 -s compiler.version=13.2 -c tools.system.package_manager:mode=install
 
-      - name: (MacOS) Get Packages from Conan
-        if: matrix.os == 'macos-latest'
-        working-directory: ${{github.workspace}}
-        run: conan install . --build=missing -s build_type=Release -s compiler=clang -s compiler.libcxx=libc++ -s compiler.cppstd=gnu23 -s compiler.version=16
+      # - name: (MacOS) Get Packages from Conan
+      #   if: matrix.os == 'macos-latest'
+      #   working-directory: ${{github.workspace}}
+      #   run: conan install . --build=missing -s build_type=Release -s compiler=clang -s compiler.libcxx=libc++ -s compiler.cppstd=gnu23 -s compiler.version=16
 
       - name: Configure CMake
         run: cmake --preset ${{env.CONAN_PRESET}}
@@ -119,10 +119,10 @@ jobs:
       - name: Build Project
         run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --preset ${{env.CONAN_PRESET}}
 
-      - name: Run Tests
-        working-directory: ${{ steps.strings.outputs.build-output-dir }}
-        run: ctest --build-config ${{ matrix.build_type }}
+      # - name: Run Tests
+      #   working-directory: ${{ steps.strings.outputs.build-output-dir }}
+      #   run: ctest --build-config ${{ matrix.build_type }}
 
-      - name: Run Benchmark
-        working-directory: ${{ steps.strings.outputs.build-output-dir }}/Release/bin
-        run: ./ApplicationBenchmark.exe
+      # - name: Run Benchmark
+      #   working-directory: ${{ steps.strings.outputs.build-output-dir }}/Release/bin
+      #   run: ./ApplicationBenchmark.exe

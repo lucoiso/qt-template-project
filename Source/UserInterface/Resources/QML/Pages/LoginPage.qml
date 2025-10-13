@@ -8,7 +8,7 @@ import UserInterface
 
 Item
 {
-    readonly property int fieldWidth: 200
+    readonly property int field_width: 200
     signal loginSuccessful()
 
     ColumnLayout
@@ -24,6 +24,10 @@ Item
             Layout.margins: 16
 
             asynchronous: false
+            width: 100
+            height: 100
+            sourceSize.width: width
+            sourceSize.height: height
             fillMode: Image.PreserveAspectFit
             source: "qrc:/UserInterface/Resources/Images/Placeholder.png"
         }
@@ -33,15 +37,14 @@ Item
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             id: usernameInput
             placeholderText: "Username"
-            width: fieldWidth
+            width: field_width
         }
 
         Button
         {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             text: "Login"
-            width: fieldWidth
-            enabled: usernameInput.text.trim() !== ""
+            width: field_width
 
             onClicked:
             {

@@ -6,7 +6,7 @@ call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build
 
 PowerShell -Command "& {Get-ChildItem build/* -Exclude Debug,Release | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue}"
 
-conan install . --build=missing --profile=Profiles/WinDbg
+conan install . --build=missing --profile=Profiles/windows-latest-x64.conanprofile --settings=build_type=Debug
 cmake --preset conan-debug
 cmake --build build --target install --preset conan-debug
 
