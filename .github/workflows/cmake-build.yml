@@ -82,10 +82,6 @@ jobs:
       - name: Get Conan
         uses: turtlebrowser/get-conan@main
 
-      - name: Detect Conan Profile
-        shell: bash
-        run: conan profile detect --force
-
       - name: (Windows) Install Dependencies
         if: matrix.os == 'windows-latest'
         uses: TheMrMilchmann/setup-msvc-dev@v3
