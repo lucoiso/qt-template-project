@@ -4,34 +4,11 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-import "qrc:/UserInterface/Resources/QML/Components" as Components
-import "qrc:/UserInterface/Resources/QML/Pages" as Pages
-
-ApplicationWindow
+Item
 {
-    id: mainWindow
-    width: 640
-    height: 480
-    visible: true
-    title: "Main Window"
-
-    StackView
-    {
-        id: mainStack
-        anchors.fill: parent
-
-        initialItem: Pages.LoginPage
-        {
-            onLoginSuccessful: mainStack.push(compShell)
-        }
-
-        Component
-        {
-            id: compShell
-            Components.ApplicationShell
-            {
-                id: appShell
-            }
-        }
-    }
+    // Note: This item isn't being used by the application itself,
+    //       it is just a placeholder to allow using QT_ADD_QML_MODULE in
+    //       cmake to keep the Main module as an individual library
+    //       If having issues related to importing qt plugins, add imports to this file and
+    //       re-install the app using qt-deploy tool
 }
