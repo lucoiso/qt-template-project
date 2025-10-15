@@ -26,7 +26,7 @@ ENDMACRO()
 
 MACRO(LU_SETUP_QT_DEPLOY TARGET_NAME)
     SET(QT_CUSTOM_ARGUMENTS
-        --dir ${CMAKE_CURRENT_BINARY_DIR}
+        --dir "${CMAKE_CURRENT_BINARY_DIR}"
         --force
         --no-system-d3d-compiler
         --no-system-dxc-compiler
