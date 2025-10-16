@@ -11,7 +11,7 @@ namespace UserInterface
     /**
      * Object to manage the list of existing of data
      */
-    class USER_INTERFACE_API TemplateObject : public QObject
+    class USERINTERFACE_API TemplateObject : public QObject
     {
         Q_OBJECT
         QML_ELEMENT

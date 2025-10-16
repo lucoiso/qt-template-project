@@ -10,6 +10,8 @@ env:
   BUILD_TESTS: true
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   CONAN_PRESET: conan-release
+  CONAN_USER_HOME: ${{github.workspace}}/c2
+  CONAN_USER_HOME_SHORT: ${{github.workspace}}/c2
 
 permissions:
   actions: read
