@@ -5,7 +5,7 @@
 
 #include <QtCore/QtGlobal>
 
-#ifdef APPLICATION_ABUILD_DLL
+#ifdef APPLICATION_BUILD_DLL
     #define APPLICATION_API Q_DECL_EXPORT
 #else
     #define APPLICATION_API Q_DECL_IMPORT

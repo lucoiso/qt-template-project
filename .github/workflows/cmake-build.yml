@@ -1,4 +1,4 @@
-name: CMake Build Workflow
+name: CMake Multi-Platform Build
 
 on:
   push:
@@ -8,10 +8,7 @@ on:
 
 env:
   BUILD_TESTS: true
-  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   CONAN_PRESET: conan-release
-  CONAN_USER_HOME: ${{github.workspace}}/c2
-  CONAN_USER_HOME_SHORT: ${{github.workspace}}/c2
 
 permissions:
   actions: read
@@ -23,108 +20,83 @@ permissions:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
-
       matrix:
-        os: [ windows-latest ]
-        # os: [ ubuntu-latest, windows-latest, macos-latest ]
-        build_type: [ Release ]
-        c_compiler: [ gcc, clang, cl ]
-
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        build_type: [Release]
         include:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
+            conan_settings: -s os=Windows -s arch=x86_64 -s compiler=msvc -s compiler.version=194 -s compiler.cppstd=23 -s compiler.runtime=dynamic
 
-          # - os: ubuntu-latest
-          #   c_compiler: gcc
-          #   cpp_compiler: g++
-
-          # - os: macos-latest
-          #   c_compiler: clang
-          #   cpp_compiler: clang++
-
-        exclude:
-          - os: windows-latest
+          - os: ubuntu-latest
             c_compiler: gcc
-          - os: windows-latest
+            cpp_compiler: g++
+            conan_settings: -s os=Linux -s arch=x86_64 -s compiler=gcc -s compiler.version=11 -s compiler.libcxx=libstdc++11 -s compiler.cppstd=23
+
+          - os: macos-latest
             c_compiler: clang
-
-          # - os: ubuntu-latest
-          #   c_compiler: cl
-          # - os: ubuntu-latest
-          #   c_compiler: clang
-
-          # - os: macos-latest
-          #   c_compiler: cl
-          # - os: macos-latest
-          #   c_compiler: gcc
+            cpp_compiler: clang++
+            conan_settings: -s os=Macos -s arch=x86_64 -s compiler=apple-clang -s compiler.version=14 -s compiler.libcxx=libc++ -s compiler.cppstd=23
 
     steps:
-      - name: Checkout & Init Submodules
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: 'recursive'
 
-      - name: Set reusable strings
-        id: strings
-        shell: bash
+      - name: Create Conan Short Path (Windows)
+        if: matrix.os == 'windows-latest'
         run: |
-          echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+          $conanPath = "C:\C2"
+          New-Item -ItemType Directory -Force -Path $conanPath
+          echo "CONAN_USER_HOME=$conanPath" >> $env:GITHUB_ENV
+          echo "CONAN_USER_HOME_SHORT=$conanPath" >> $env:GITHUB_ENV
 
-      - name: Get CMake and Ninja
+      - name: Install Build Tools
         uses: lukka/get-cmake@latest
         with:
           cmakeVersion: latest
           ninjaVersion: latest
 
-      - name: Get Conan
+      - name: Install Conan
         uses: turtlebrowser/get-conan@main
 
-      - name: (Windows) Install Dependencies
+      - name: Setup MSVC (Windows)
         if: matrix.os == 'windows-latest'
         uses: TheMrMilchmann/setup-msvc-dev@v3
         with:
           arch: x64
 
-      # - name: (Ubuntu) Install Dependencies
-      #   if: matrix.os == 'ubuntu-latest'
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get upgrade -y
+      - name: Setup GCC (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-11 g++-11
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 110
 
       - name: Detect Conan Profile
-        working-directory: ${{github.workspace}}
         run: conan profile detect --force
 
-      - name: (Windows) Get Packages from Conan
-        if: matrix.os == 'windows-latest'
-        working-directory: ${{github.workspace}}
-        run: conan install . --build=missing -s build_type=Release -s compiler.cppstd=23
-
-      # - name: (Ubuntu) Get Packages from Conan
-      #   if: matrix.os == 'ubuntu-latest'
-      #   working-directory: ${{github.workspace}}
-      #   run: conan install . --build=missing -s build_type=Release -s compiler=gcc -s compiler.libcxx=libstdc++11 -s compiler.cppstd=gnu23 -s compiler.version=13.2 -c tools.system.package_manager:mode=install
-
-      # - name: (MacOS) Get Packages from Conan
-      #   if: matrix.os == 'macos-latest'
-      #   working-directory: ${{github.workspace}}
-      #   run: conan install . --build=missing -s build_type=Release -s compiler=clang -s compiler.libcxx=libc++ -s compiler.cppstd=gnu23 -s compiler.version=16
+      - name: Install Conan Dependencies
+        run: |
+          conan install . \
+            --build=missing \
+            ${{ matrix.conan_settings }} \
+            -s build_type=${{ matrix.build_type }} \
+            -c tools.system.package_manager:mode=install \
+            -c tools.system.package_manager:sudo=True
 
       - name: Configure CMake
-        run: cmake --preset ${{env.CONAN_PRESET}}
+        run: cmake --preset ${{ env.CONAN_PRESET }}
 
       - name: Build Project
-        run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --preset ${{env.CONAN_PRESET}}
+        run: cmake --build --preset ${{ env.CONAN_PRESET }}
 
-      # - name: Run Tests
-      #   working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      #   run: ctest --build-config ${{ matrix.build_type }}
-
-      # - name: Run Benchmark
-      #   working-directory: ${{ steps.strings.outputs.build-output-dir }}/Release/bin
-      #   run: ./ApplicationBenchmark.exe
+      - name: Run Tests
+        if: env.BUILD_TESTS == 'true'
+        run: ctest --preset ${{ env.CONAN_PRESET }}
