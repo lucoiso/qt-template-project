@@ -29,20 +29,14 @@ jobs:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
-            conan_profile: Profiles/windows-latest.conanprofile
-            extra_settings: -s compiler.runtime=dynamic
 
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
-            conan_profile: Profiles/ubuntu-latest.conanprofile
-            extra_settings: -s compiler.libcxx=libstdc++11
 
           - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
-            conan_profile: Profiles/macos-latest.conanprofile
-            extra_settings: -s compiler.libcxx=libc++
 
     steps:
       - name: Checkout Repository
@@ -73,7 +67,7 @@ jobs:
       - name: (MacOS) Setup
         if: matrix.os == 'macos-latest'
         run: |
-          brew update && brew outdated && brew upgrade && brew cleanup
+          brew update
           brew install pipx
           brew install conan
 
@@ -81,16 +75,25 @@ jobs:
         uses: lukka/get-cmake@latest
 
       - name: Install Conan
-        if: matrix.os != 'macos-latest'
         uses: turtlebrowser/get-conan@main
 
       - name: Create Conan Default Profile
         run: conan profile detect --force
 
+      - name: Update Conan Configuration
+        run: |
+          conan config set general.revisions_enabled=1
+          conan remote add conancenter https://center.conan.io || true
+
       - name: Install Conan Dependencies
         shell: bash
         run: |
-          conan install . --build=missing --profile:build=default --profile:host=${{ matrix.conan_profile }} ${{ matrix.extra_settings }} -s build_type=${{ matrix.build_type }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+          conan install . \
+            --build=missing \
+            --profile=Profiles/${{ matrix.os }}.conanprofile \
+            -s build_type=${{ matrix.build_type }} \
+            -c tools.system.package_manager:mode=install \
+            -c tools.system.package_manager:sudo=True
 
       - name: Configure CMake
         run: cmake --preset ${{ env.CONAN_PRESET }}
