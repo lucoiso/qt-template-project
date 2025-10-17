@@ -62,6 +62,9 @@ jobs:
       - name: Install Conan
         uses: turtlebrowser/get-conan@main
 
+      - name: Create Conan Default Profile
+        run: conan profile detect --force
+
       - name: Setup MSVC
         if: matrix.os == 'windows-latest'
         uses: TheMrMilchmann/setup-msvc-dev@v3
@@ -79,7 +82,7 @@ jobs:
       - name: Install Conan Dependencies
         shell: bash
         run: |
-          conan install . --build=missing --profile=${{ matrix.conan_profile }} ${{ matrix.extra_settings }} -s build_type=${{ matrix.build_type }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+          conan install . --build=missing --profile:build=default --profile:host=${{ matrix.conan_profile }} ${{ matrix.extra_settings }} -s build_type=${{ matrix.build_type }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
       - name: Configure CMake
         run: cmake --preset ${{ env.CONAN_PRESET }}

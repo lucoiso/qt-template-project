@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "UserInterfaceModule.hpp"
 #include <QObject>
 #include <QtQml/qqml.h>
 

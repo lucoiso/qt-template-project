@@ -11,7 +11,7 @@ Q_IMPORT_PLUGIN(UserInterfacePlugin)
 
 using namespace Qt::Literals::StringLiterals;
 
-int Application::Run(std::int32_t InArgc, char* InArgv[])
+std::int32_t Application::Run(std::int32_t InArgc, char* InArgv[])
 {
 #ifdef _DEBUG
     qputenv("QT_LOGGING_TO_CONSOLE", "1");

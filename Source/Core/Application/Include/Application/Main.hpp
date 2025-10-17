@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Application/ApplicationModule.hpp"
+#include <cstdint>
 
 namespace Application
 {
     /** Run application */
-    int APPLICATION_API Run(std::int32_t InArgc, char* InArgv[]);
+    std::int32_t APPLICATION_API Run(std::int32_t InArgc, char* InArgv[]);
 } // namespace Application
