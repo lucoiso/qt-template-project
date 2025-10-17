@@ -29,17 +29,20 @@ jobs:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
-            conan_settings: -s os=Windows -s arch=x86_64 -s compiler=msvc -s compiler.version=194 -s compiler.cppstd=23 -s compiler.runtime=dynamic
+            conan_profile: ../../Profiles/windows-latest.conanprofile
+            extra_settings: -s compiler.runtime=dynamic
 
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
-            conan_settings: -s os=Linux -s arch=x86_64 -s compiler=gcc -s compiler.version=11 -s compiler.libcxx=libstdc++11 -s compiler.cppstd=23
+            conan_profile: ../../Profiles/ubuntu-latest.conanprofile
+            extra_settings: -s compiler.libcxx=libstdc++11
 
           - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
-            conan_settings: -s os=Macos -s arch=x86_64 -s compiler=apple-clang -s compiler.version=14 -s compiler.libcxx=libc++ -s compiler.cppstd=23
+            conan_profile: ../../Profiles/macos-latest.conanprofile
+            extra_settings: -s compiler.libcxx=libc++
 
     steps:
       - name: Checkout Repository
@@ -48,23 +51,16 @@ jobs:
           fetch-depth: 0
           submodules: 'recursive'
 
-      - name: Create Conan Short Path
+      - name: Set CONAN_USER_HOME for Windows
         if: matrix.os == 'windows-latest'
         run: |
-          New-Item -ItemType Directory -Force -Path "C:\C2"
           echo "CONAN_USER_HOME=C:\C2" >> $env:GITHUB_ENV
-          echo "CONAN_USER_HOME_SHORT=C:\C2" >> $env:GITHUB_ENV
 
       - name: Install Build Tools
         uses: lukka/get-cmake@latest
 
       - name: Install Conan
-        if: matrix.os != 'macos-latest'
         uses: turtlebrowser/get-conan@main
-
-      - name: Install Conan on macOS
-        if: matrix.os == 'macos-latest'
-        run: brew install conan
 
       - name: Setup MSVC
         if: matrix.os == 'windows-latest'
@@ -80,13 +76,10 @@ jobs:
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 110
 
-      - name: Detect Conan Profile
-        run: conan profile detect --force
-
       - name: Install Conan Dependencies
         shell: bash
         run: |
-          conan install . --build=missing ${{ matrix.conan_settings }} -s build_type=${{ matrix.build_type }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+          conan install . --build=missing --profile=${{ matrix.conan_profile }} ${{ matrix.extra_settings }} -s build_type=${{ matrix.build_type }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
       - name: Configure CMake
         run: cmake --preset ${{ env.CONAN_PRESET }}
