@@ -51,18 +51,18 @@ jobs:
           fetch-depth: 0
           submodules: 'recursive'
 
-      - name: [Windows] Set CONAN_USER_HOME
+      - name: (Windows) Set CONAN_USER_HOME
         if: matrix.os == 'windows-latest'
         run: |
           echo "CONAN_USER_HOME=C:\C2" >> $env:GITHUB_ENV
 
-      - name: [Windows] Setup
+      - name: (Windows) Setup
         if: matrix.os == 'windows-latest'
         uses: TheMrMilchmann/setup-msvc-dev@v3
         with:
           arch: x64
 
-      - name: [Ubuntu] Setup
+      - name: (Ubuntu) Setup
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
@@ -70,7 +70,7 @@ jobs:
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 110
 
-      - name: [MacOS] Setup
+      - name: (MacOS) Setup
         if: matrix.os == 'macos-latest'
         run: |
           brew update && brew outdated && brew upgrade && brew cleanup
