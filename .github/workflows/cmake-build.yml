@@ -48,30 +48,31 @@ jobs:
           fetch-depth: 0
           submodules: 'recursive'
 
-      - name: Create Conan Short Path (Windows)
+      - name: Create Conan Short Path
         if: matrix.os == 'windows-latest'
         run: |
-          $conanPath = "C:\C2"
-          New-Item -ItemType Directory -Force -Path $conanPath
-          echo "CONAN_USER_HOME=$conanPath" >> $env:GITHUB_ENV
-          echo "CONAN_USER_HOME_SHORT=$conanPath" >> $env:GITHUB_ENV
+          New-Item -ItemType Directory -Force -Path "C:\C2"
+          echo "CONAN_USER_HOME=C:\C2" >> $env:GITHUB_ENV
+          echo "CONAN_USER_HOME_SHORT=C:\C2" >> $env:GITHUB_ENV
 
       - name: Install Build Tools
         uses: lukka/get-cmake@latest
-        with:
-          cmakeVersion: latest
-          ninjaVersion: latest
 
       - name: Install Conan
+        if: matrix.os != 'macos-latest'
         uses: turtlebrowser/get-conan@main
 
-      - name: Setup MSVC (Windows)
+      - name: Install Conan on macOS
+        if: matrix.os == 'macos-latest'
+        run: brew install conan
+
+      - name: Setup MSVC
         if: matrix.os == 'windows-latest'
         uses: TheMrMilchmann/setup-msvc-dev@v3
         with:
           arch: x64
 
-      - name: Setup GCC (Ubuntu)
+      - name: Setup GCC
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
@@ -83,13 +84,9 @@ jobs:
         run: conan profile detect --force
 
       - name: Install Conan Dependencies
+        shell: bash
         run: |
-          conan install . \
-            --build=missing \
-            ${{ matrix.conan_settings }} \
-            -s build_type=${{ matrix.build_type }} \
-            -c tools.system.package_manager:mode=install \
-            -c tools.system.package_manager:sudo=True
+          conan install . --build=missing ${{ matrix.conan_settings }} -s build_type=${{ matrix.build_type }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
       - name: Configure CMake
         run: cmake --preset ${{ env.CONAN_PRESET }}
