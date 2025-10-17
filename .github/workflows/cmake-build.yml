@@ -51,7 +51,7 @@ jobs:
           fetch-depth: 0
           submodules: 'recursive'
 
-      - name: Set CONAN_USER_HOME for Windows
+      - name: [Windows] Set CONAN_USER_HOME
         if: matrix.os == 'windows-latest'
         run: |
           echo "CONAN_USER_HOME=C:\C2" >> $env:GITHUB_ENV
