@@ -7,5 +7,5 @@
 namespace TemplateLibrary
 {
     /** Example function that return a pre-determined string */
-    std::string TEMPLATELIBRARY_API GetString();
+    [[nodiscard]] std::string TEMPLATELIBRARY_API GetString();
 }; // TemplateLibrary

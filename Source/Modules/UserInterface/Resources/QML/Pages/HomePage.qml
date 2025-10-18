@@ -3,8 +3,6 @@
 import QtQuick
 import QtQuick.Controls
 
-import UserInterface
-
 Item
 {
     Rectangle

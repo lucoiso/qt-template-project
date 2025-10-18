@@ -5,13 +5,13 @@
 
 using namespace UserInterface;
 
-UserInterface::TemplateObject::TemplateObject(QObject* const InParent)
+TemplateObject::TemplateObject(QObject* const InParent)
     : QObject(InParent)
 {
     SetName(QString::fromStdString(TemplateLibrary::GetString()));
 }
 
-void UserInterface::TemplateObject::SetName(const QString& InValue)
+void TemplateObject::SetName(const QString& InValue)
 {
     if (InValue != m_Name)
     {
@@ -20,7 +20,7 @@ void UserInterface::TemplateObject::SetName(const QString& InValue)
     }
 }
 
-const QString& UserInterface::TemplateObject::GetName() const
+const QString& TemplateObject::GetName() const
 {
     return m_Name;
 }
