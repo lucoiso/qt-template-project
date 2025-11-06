@@ -4,5 +4,6 @@
 Template project to generate new applications using Qt and QML
 
 # Dependencies
-1. CMake
-2. Conan
+1. Compiler w/ support for C++23
+2. CMake +3.28
+3. Conan +2
